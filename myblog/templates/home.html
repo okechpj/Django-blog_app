@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %} Home | MyBlog {% endblock %}
+
+    {% block content %}
+    <h1>Blog Post View</h1>
+    <ul>
+        {% for post in object_list %}
+            <li style="border: .5px solid grey; border-radius: 10px; padding: 15px; margin-bottom: 15px;"><a href="{% url 'article' post.pk %}">{{ post.title }}</a> - {{ post.author }}<br>
+                {{ post.body | slice:":50" | safe }}
+            </li>
+        {% endfor %}
+        
+    </ul>
+
+    {% endblock %}
