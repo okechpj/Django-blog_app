@@ -22,8 +22,7 @@ WORKDIR /app
 
 
 # Install the required packages
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && 
 
 # Copy the entire Django project into the container
 COPY --chown=appuser:appuser . /app/
