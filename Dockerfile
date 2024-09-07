@@ -2,14 +2,14 @@
 FROM python:3.10-slim
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libssl-dev \
     libffi-dev \
     python3-dev \
     libsemanage1 \
     libsemanage-common \
-    && apt-get clean
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -26,8 +26,8 @@ WORKDIR /app
 COPY --chown=appuser:appuser requirements.txt /app/
 
 # Install the required packages
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 # Copy the entire Django project into the container
 COPY --chown=appuser:appuser . /app/
