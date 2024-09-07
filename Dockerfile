@@ -1,22 +1,36 @@
 # Use an official Python runtime as a parent image
 FROM python:3.10-slim
 
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libssl-dev \
+    libffi-dev \
+    python3-dev \
+    libsemanage1 \
+    libsemanage-common \
+    && apt-get clean
+
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+
+# Create a non-root user
+RUN useradd -ms /bin/bash appuser
+USER appuser
 
 # Set the working directory in the container
 WORKDIR /app
 
 # Copy the requirements file into the container
-COPY requirements.txt /app/
+COPY --chown=appuser:appuser requirements.txt /app/
 
 # Install the required packages
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
 # Copy the entire Django project into the container
-COPY . /app/
+COPY --chown=appuser:appuser . /app/
 
 # Expose the port the app runs on
 EXPOSE 8000
