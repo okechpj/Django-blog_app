@@ -20,8 +20,6 @@ USER appuser
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the requirements file into the container
-COPY --chown=appuser:appuser requirements.txt /app/
 
 # Install the required packages
 RUN pip install --no-cache-dir --upgrade pip && \
